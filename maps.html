@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>ACU Google Maps API Markup</title>
+    <style>
+      html, body, #map-canvas {
+        height: 100%;
+        margin: 0px;
+        padding: 0px
+      }
+    </style>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+    <script>
+	
+		var lat = 32.471081; 
+		var lon = -99.707941;
+		var myMap;
+
+		var mapOptions = 
+		{
+			zoom: 17,
+			center: new google.maps.LatLng(lat, lon),
+			mapTypeId: google.maps.MapTypeId.MAP
+		};
+
+		function initialize() 
+		{
+			//Set up our map object by telling it in which HTML element to put the map and what options to load it with
+			myMap = new google.maps.Map(document.getElementById('map-canvas'),
+			  mapOptions);
+			
+			// Define the LatLng coordinates for the polygon's path.
+			var WPACcoords = [
+				new google.maps.LatLng(32.467723, -99.705884),
+				new google.maps.LatLng(32.467723, -99.705391),
+				new google.maps.LatLng(32.466954, -99.705391),
+				new google.maps.LatLng(32.466954, -99.705884),
+				new google.maps.LatLng(32.467723, -99.705884) //notice the final point is the first point to close off our shape
+			];
+
+			var COBAcoords = [
+				new google.maps.LatLng(32.467978, -99.707177),
+				new google.maps.LatLng(32.467978, -99.706646),
+				new google.maps.LatLng(32.467240, -99.706646),
+				new google.maps.LatLng(32.467240, -99.707177),
+				new google.maps.LatLng(32.467978, -99.707177) //notice the final point is the first point to close off our shape
+			];
+
+			var Gardnercoords = [
+				new google.maps.LatLng(32.466643, -99.707885),
+				new google.maps.LatLng(32.466100, -99.707885),
+				new google.maps.LatLng(32.466100, -99.707000),
+				new google.maps.LatLng(32.466643, -99.707000),
+				new google.maps.LatLng(32.466643, -99.707885) //notice the final point is the first point to close off our shape
+			];
+
+			// Construct the polygons.
+			WPAC = new google.maps.Polygon({
+				paths: WPACcoords,
+				strokeColor: '#FF0000',
+				strokeOpacity: 0.8,
+				strokeWeight: 2,
+				fillColor: '#FF0000',
+				fillOpacity: 0.35
+			});
+
+			COBA = new google.maps.Polygon({
+				paths: COBAcoords,
+				strokeColor: '#FF0000',
+				strokeOpacity: 0.8,
+				strokeWeight: 2,
+				fillColor: '#FF0000',
+				fillOpacity: 0.35
+			});
+
+			Gardner = new google.maps.Polygon({
+				paths: Gardnercoords,
+				strokeColor: '#FF0000',
+				strokeOpacity: 0.8,
+				strokeWeight: 2,
+				fillColor: '#FF0000',
+				fillOpacity: 0.35
+			});
+
+			//Place the polygons
+			WPAC.setMap(myMap);
+			COBA.setMap(myMap);
+			Gardner.setMap(myMap);
+			
+			//Make the Markers
+			var LibraryMarker = new google.maps.Marker({
+	            position: {lat: 32.468600, lng: -99.709715},
+	            map: myMap,
+	            icon: "img/acu copy2.png",
+	            title: "Brown Library"
+	            //size: new google.maps.Size(2,2)
+	        });
+
+	        var HunterMarker = new google.maps.Marker({
+	            position: {lat: 32.470200, lng: -99.705348},
+	            map: myMap,
+	            icon: "img/acu copy2.png",
+	            title: "Hunter Welcome Center"
+	            //size: new google.maps.Size(2,2)
+	        });
+
+	        var OnsteadMarker = new google.maps.Marker({
+	            position: {lat: 32.466700, lng: -99.709715},
+	            map: myMap,
+	            icon: "img/acu copy2.png",
+	            title: "Onstead Science Center"
+	        });
+
+			//Define the text for the windows
+			var WPACstring = '<div id="content">'+
+			  '<div id="siteNotice">'+
+			  '</div>'+
+			  '<h1 id="firstHeading" class="firstHeading">Williams Performing Arts Center</h1>'+
+			  '<div id="bodyContent">'+
+			  '<p><b>Williams Performing Arts Center (WPAC)</b>, is home to the Big Purple, ACU Orchestra and Choir, and Theater. It also happens to be the location for the Hawaii Kaio & Frat Rush tonight from 7pm to 9pm.</p>'+
+			  '</div>'+
+			  '</div>';
+
+			var COBAstring = '<div id="content">'+
+			  '<div id="siteNotice">'+
+			  '</div>'+
+			  '<h1 id="firstHeading" class="firstHeading">College of Business Administration</h1>'+
+			  '<div id="bodyContent">'+
+			  '<p><b>College of Business Administration (COBA)</b>, is "Home Sweet Home" to every SITC student. Currently, the Web Application Development class is meeting on the third floor to show off their successful Google Maps API programs.</p>'+
+			  '</div>'+
+			  '</div>';
+
+			var Gardnerstring = '<div id="content">'+
+			  '<div id="siteNotice">'+
+			  '</div>'+
+			  '<h1 id="firstHeading" class="firstHeading">Gardner Hall</h1>'+
+			  '<div id="bodyContent">'+
+			  '<p><b>Gardner Hall</b>, is the first place that many ACU freshman girls find friends, community and comfort after making the move to ACU. It also happens to share a parking lot with the every crowded COBA and is commonly utilized by SITC students when they are running late to class.</p>'+
+			  '</div>'+
+			  '</div>';
+
+			var Librarystring = '<div id="content">'+
+			  '<div id="siteNotice">'+
+			  '</div>'+
+			  '<h1 id="firstHeading" class="firstHeading">Brown Library</h1>'+
+			  '<div id="bodyContent">'+
+			  '<p><b>Brown Library</b>, a common place for ACU students to hang out with friends or study. It\'s also just as much a common place to go for printing or Starbucks.</p>'+
+			  '</div>'+
+			  '</div>';
+
+			var Hunterstring = '<div id="content">'+
+			  '<div id="siteNotice">'+
+			  '</div>'+
+			  '<h1 id="firstHeading" class="firstHeading">Hunter Welcome Center</h1>'+
+			  '<div id="bodyContent">'+
+			  '<p><b>Hunter Welcome Center</b>, is often one of the first places that prospective students visit at ACU. It is home to the Career Center, Undergraduate Research Festival, and many other services and ACU events.</p>'+
+			  '</div>'+
+			  '</div>';
+
+			var Onsteadstring = '<div id="content">'+
+			  '<div id="siteNotice">'+
+			  '</div>'+
+			  '<h1 id="firstHeading" class="firstHeading">Onstead Science Center</h1>'+
+			  '<div id="bodyContent">'+
+			  '<p><b>Onstead Science Center </b>, formerly known as "Foster Science Center" is one of the newly remodeled buildings on campus. It has a large projection of sciencey things on the main face, and it glows very brightly at night. Some students wish they would use that projector to play movies.</p>'+
+			  '</div>'+
+			  '</div>';
+			  
+			//Define where the point of the bubble is placed (in this case, the top-left of the square defined above)
+			var WPACinfo = new google.maps.LatLng(32.467723, -99.705884);
+			var COBAinfo = new google.maps.LatLng(32.467978, -99.707177);
+			var Gardnerinfo = new google.maps.LatLng(32.466643, -99.707885);
+			var Libraryinfo = new google.maps.LatLng(32.468900, -99.709715);
+			var Hunterinfo = new google.maps.LatLng(32.470600, -99.705348);
+			var Onsteadinfo = new google.maps.LatLng(32.467000, -99.709715);
+
+
+			//Create the info window using gmaps API
+			var WPACwindow = new google.maps.InfoWindow({
+			  content: WPACstring,
+			  position: new google.maps.LatLng(32.468097, -99.707032)
+			});
+
+			var COBAwindow = new google.maps.InfoWindow({
+			  content: COBAstring,
+			  position: new google.maps.LatLng(32.468097, -99.707032)
+			});
+
+			var Gardnerwindow = new google.maps.InfoWindow({
+			  content: Gardnerstring,
+			  position: new google.maps.LatLng(32.468097, -99.707032)
+			});
+
+			var Librarywindow = new google.maps.InfoWindow({
+			  content: Librarystring,
+			  position: new google.maps.LatLng(32.468097, -99.707032)
+			});
+
+			var Hunterwindow = new google.maps.InfoWindow({
+			  content: Hunterstring,
+			  position: new google.maps.LatLng(32.468097, -99.707032)
+			});
+
+			var Onsteadwindow = new google.maps.InfoWindow({
+			  content: Onsteadstring,
+			  position: new google.maps.LatLng(32.468097, -99.707032)
+			});
+
+			//Set the event listener so that when we click our polygon, it opens the info window
+			google.maps.event.addListener(WPAC, 'click', function() {
+				WPACwindow.setPosition(WPACinfo); //yes, this is redundant because the infowindow1 variable already has a position property set.
+				WPACwindow.open(myMap);
+			});
+
+			google.maps.event.addListener(COBA, 'click', function() {
+				COBAwindow.setPosition(COBAinfo); //yes, this is redundant because the infowindow1 variable already has a position property set.
+				COBAwindow.open(myMap);
+			});
+
+			google.maps.event.addListener(Gardner, 'click', function() {
+				Gardnerwindow.setPosition(Gardnerinfo); //yes, this is redundant because the infowindow1 variable already has a position property set.
+				Gardnerwindow.open(myMap);
+			});
+
+			google.maps.event.addListener(LibraryMarker, 'click', function() {
+				Librarywindow.setPosition(Libraryinfo); //yes, this is redundant because the infowindow1 variable already has a position property set.
+				Librarywindow.open(myMap);
+			});
+
+			google.maps.event.addListener(HunterMarker, 'click', function() {
+				Hunterwindow.setPosition(Hunterinfo); //yes, this is redundant because the infowindow1 variable already has a position property set.
+				Hunterwindow.open(myMap);
+			});
+
+			google.maps.event.addListener(OnsteadMarker, 'click', function() {
+				Onsteadwindow.setPosition(Onsteadinfo); //yes, this is redundant because the infowindow1 variable already has a position property set.
+				Onsteadwindow.open(myMap);
+			});
+
+		}
+
+		//Set event listener to load the map once the window has been initialized (i.e. immediately)
+		google.maps.event.addDomListener(window, 'load', initialize);
+
+		//getLocation and showPosition are from W3Schools examples on HTML Geolocation
+		function getLocation() 
+		{
+		    if (navigator.geolocation) 
+		    {
+		        navigator.geolocation.getCurrentPosition(showPosition);
+			}
+		}
+
+		function showPosition(position) {
+		    var lat = position.coords.latitude;
+		    var lon = position.coords.longitude;
+		    myMap.setCenter(new google.maps.LatLng(lat, lon));
+
+		    //http://stackoverflow.com/questions/12712027/current-location-marker-in-browser-blue-circle
+		    var userMarker = new google.maps.Marker({
+	            position: {lat: lat, lng: lon},
+	            map: myMap,
+	            icon: "img/red-circle.png",
+	            title: "You are here"
+	        });
+		}
+
+    </script>
+  </head>
+  <body onload="getLocation()">
+  	<header> 
+  		<h1>Kayla's Google Maps API Page</h1>
+  	</header>
+    <div id="map-canvas" style="width:100%"></div>
+  </body>
+</html>
